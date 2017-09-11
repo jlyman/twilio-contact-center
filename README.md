@@ -1,3 +1,44 @@
+# Friendswood Area Disaster Help Call Center
+
+This is an adaptation of the Twilio Contact Center Demo, set up as an temporary emergency response for Hurricane Harvey
+relief efforts for the city of Friendswood, TX. Please see the [original Twilio README here](https://github.com/nash-md/twilio-contact-center/blob/master/README.md).
+
+This version of the call center application includes FADH-specific changes (IVR wording, copy, recorded messages, etc.),
+as well as a few specific enhancements to make it usable for the volunteers. These changes included:
+
+* Adding basic authentication to keep the application secure
+* Improving the agent login flow so volunteers could pick from available agents instead of typing them
+* Playing a short ringtone when a call arrives to notify agents
+* Including a different after-hours message
+* and other small tweaks.
+
+## Additional Setup ##
+
+In addition to the setup process detailed in the original Twilio documentation (included below), there are a few other
+environment variables and changes that you would want to make if using this codebase.
+
+**Additional Environment Variables:**
+
+* `CALL_CENTER_SESSION_KEY`: a key used as the session secret
+* `CALL_CENTER_ADMIN_PASSWORD`: a bcrypt-compatible hash of the superadmin's pasword
+* `CALL_CENTER_AGENT_PASSWORD`: a bcrypt-compatible hash of the agent's pasword
+* Also don't forget to define your `NODE_LOG_LEVEL` for appropriate logging
+
+**Change voice prompts:**
+
+Recorded for the Friendswood application, the WAV files in the /public/audio folder should be re-recorded to be specific
+to your particular setup. Modify `ivr.js` to further change your call flow.
+
+**Agent Chat and Quick Links:**
+
+We set up a quick and dirty chat using [tlk.io](http://tlk.io), and you can set up a channel for your use there and add
+it in to `workplace.html` in the `data-channel` attribute to be specific to your application.
+
+Also to the bottom of the Agent Workplace screen we added several forms and resource links that were useful in our
+situation. You may have links that would likewise be useful to your agents/volunteers, so modify those (workplace.html).
+
+---
+
 # Twilio Contact Center Demo
 Essence of a modern contact center is to serve customers on multiple channels (voice, web chat, video, email, social media, etc.), allow them to move seamlessly across channels and most importantly maintain context of the conversations.
 

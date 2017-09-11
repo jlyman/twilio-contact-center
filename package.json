@@ -1,13 +1,13 @@
 {
-  "name": "twilio-contact-center",
-  "description": "A simple omni channel contact center using Twilio WebRTC Client, Video, SMS, Chat and Taskrouter",
-  "version": "1.7.0",
-  "author": "Matthias Damm",
+  "name": "friendswood-area-disaster-help-call-center",
+  "description": "A pop-up call center for the city of Friendswood for post-Hurricane Harvey relief efforts",
+  "version": "1.0.0",
+  "author": "Matthias Damm, Joshua Lyman",
   "contributors": [],
   "license": "MIT",
-  "repository": "nash-md/twilio-contact-center",
+  "repository": "jlyman/twilio-contact-center",
   "main": "app.js",
-  "bugs": "https://github.com/nash-md/twilio-contact-center/issues",
+  "bugs": "https://github.com/jlyman/twilio-contact-center/issues",
   "private": false,
   "keywords": [
     "Twilio",
@@ -21,7 +21,10 @@
     "node",
     "heroku",
     "contact center",
-    "contact centre"
+    "contact centre",
+    "Friendswood",
+    "Harvey",
+    "relief efforts"
   ],
   "dependencies": {
     "async": "^1.5.2",
