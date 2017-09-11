@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>FADH Call Center: Authenticate</title>
+
+  <link rel="stylesheet" href="/styles/bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/default.css" type="text/css" />
+
+</head>
+
+<body class="container">
+
+  <div class="row">
+
+    <div class=" col-md-6 col-md-offset-3">
+      <h2>Welcome</h2>
+      <p class="lead">Please log in with the username and password.</p>
+      <p>See a volunteer supervisor if you are unsure what to enter.</p>
+    </div>
+
+    <div class="well col-md-6 col-md-offset-3">
+
+      <form class="form-horizontal" name="loginForm" method="post">
+
+        <div class="form-group">
+          <div class="col-xs-12">
+            <input class="form-control" ng-focus="reset()" type="text" name="username" placeholder="Username" ng-model="worker.username" required>
+          </div>
+				</div>
+				
+				<div class="form-group">
+          <div class="col-xs-12">
+            <input class="form-control" ng-focus="reset()" type="password" name="password" placeholder="Password" ng-model="worker.password" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-xs-12">
+            <button ng-disabled="loginForm.username.$invalid" type="submit" class="btn btn-primary">Log In</button>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <script src="/scripts/angular.min.js"></script>
+  <script src="/scripts/angular-messages.min.js"></script>
+  <!-- <script src="AuthenticateController.js"></script> -->
+
+  </body>
+  </html>

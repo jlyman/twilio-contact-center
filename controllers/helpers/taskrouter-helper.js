@@ -66,7 +66,7 @@ module.exports.createWorkerCapabilityToken = function (sid) {
 		authToken: process.env.TWILIO_AUTH_TOKEN,
 		workspaceSid: process.env.TWILIO_WORKSPACE_SID,
 		channelId: sid,
-		ttl: 3600,
+		ttl: 14400,
 	})
 
 	const eventBridgePolicies = Twilio.jwt.taskrouter.util.defaultEventBridgePolicies(process.env.TWILIO_ACCOUNT_SID, sid)

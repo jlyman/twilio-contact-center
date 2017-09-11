@@ -1,4 +1,5 @@
 const Twilio 	= require('twilio')
+const logger 	= require('../util-logger.js')
 
 const AccessToken 	= Twilio.jwt.AccessToken
 const VideoGrant 		= Twilio.jwt.AccessToken.VideoGrant
@@ -9,6 +10,21 @@ const client = new Twilio(
 	process.env.TWILIO_AUTH_TOKEN)
 
 const taskrouterHelper = require('./helpers/taskrouter-helper.js')
+
+module.exports.listWorkers = function (req, res) {
+	const filter = { activitySid: req.configuration.twilio.workerOfflineActivitySid }
+
+	client.taskrouter.v1.workspaces(process.env.TWILIO_WORKSPACE_SID).workers.list(filter)
+		.then(workers => {
+
+			res.status(200).json({
+				workers: workers.map(w => w.friendlyName)
+			})
+
+		}).catch(error => {
+			res.status(500).send(res.convertErrorToJSON(error))
+		})
+}
 
 module.exports.login = function (req, res) {
 	const friendlyName = req.body.worker.friendlyName
@@ -31,6 +47,8 @@ module.exports.login = function (req, res) {
 						attributes: worker.attributes
 					}
 
+					logger.info('Logged in agent %s', friendlyName)
+
 					res.status(200).end()
 					return
 				}
@@ -45,8 +63,8 @@ module.exports.login = function (req, res) {
 }
 
 var createWorkerTokens = function (configuration, worker, endpoint) {
-	/* all token we generate are valid for 1 hour */
-	const lifetime = 3600
+	/* all token we generate are valid for 6 hours */
+	const lifetime = 21600
 
 	/* create a token for Twilio TaskRouter */
 	const workerCapability = taskrouterHelper.createWorkerCapabilityToken(worker.sid)
@@ -103,6 +121,7 @@ module.exports.logout = function (req, res) {
 		if (error) {
 			res.status(500).send(res.convertErrorToJSON(error))
 		} else {
+			logger.info('Logged out an agent')
 			res.status(200).end()
 		}
 	})
@@ -129,6 +148,7 @@ module.exports.call = function (req, res) {
 	const twiml = new Twilio.twiml.VoiceResponse()
 
 	const dial = twiml.dial({ callerId: req.configuration.twilio.callerId })
+	logger.info('Dialing a phone number: %s', req.query.phone)
 	dial.number(req.query.phone)
 
 	res.send(twiml.toString())

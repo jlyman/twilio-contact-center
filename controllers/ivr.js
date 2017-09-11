@@ -1,6 +1,9 @@
 const Twilio 	= require('twilio')
+const moment = require('moment-timezone')
+const logger 	= require('../util-logger.js')
 
 const taskrouterHelper = require('./helpers/taskrouter-helper.js')
+const voice = { voice: 'alice', language: 'en-us' }
 
 module.exports.welcome = function (req, res) {
 	const twiml =  new Twilio.twiml.VoiceResponse()
@@ -12,8 +15,10 @@ module.exports.welcome = function (req, res) {
 		keywords.push(req.configuration.ivr.options[i].friendlyName)
 	}
 
+	logger.info('Receiving call, starting IVR. Phone Number: %s', req.query.From)
+
 	const gather = twiml.gather({
-		input: 'dtmf speech',
+		input: 'dtmf',
 		action: 'select-team',
 		method: 'GET',
 		numDigits: 1,
@@ -22,10 +27,12 @@ module.exports.welcome = function (req, res) {
 		hints: keywords.join()
 	})
 
-	gather.say(req.configuration.ivr.text)
+	// gather.say(voice, req.configuration.ivr.text)
+	gather.play(req.protocol + '://' + req.hostname + '/audio/welcome.wav')
 
-	twiml.say('You did not say anything or enter any digits.')
-	twiml.pause({length: 2})
+	// twiml.say(voice, 'If you\'d like to speak to a volunteer, press 1.')
+	twiml.play(req.protocol + '://' + req.hostname + '/audio/welcome-reminder.wav')
+	twiml.pause({length: 3})
 	twiml.redirect({method: 'GET'}, 'welcome')
 
 	res.send(twiml.toString())
@@ -71,7 +78,7 @@ module.exports.selectTeam = function (req, res) {
 	/* the caller pressed a key that does not match any team */
 	if (team === null) {
 		// redirect the call to the previous twiml
-		twiml.say('Your selection was not valid, please try again')
+		twiml.say(voice, 'Your selection was not valid, please try again')
 		twiml.pause({length: 2})
 		twiml.redirect({ method: 'GET' }, 'welcome')
 	} else {
@@ -83,7 +90,16 @@ module.exports.selectTeam = function (req, res) {
 			timeout: 5
 		})
 
-		gather.say('Press a key if you want a callback from ' + team.friendlyName + ', or stay on the line')
+		const currentHour = moment().tz('America/Chicago').hour()
+		if (currentHour > 15 || currentHour < 9) {
+			// Outside of business hours
+			// gather.say(voice, 'A volunteer will answer your call shortly. Or you can press any key to receive a callback when one is available.')
+			gather.play(req.protocol + '://' + req.hostname + '/audio/pleasehold-off-clock.wav')
+		} else {
+			// During business hours
+			// gather.say(voice, 'A volunteer will answer your call shortly. Or you can press any key to receive a callback when one is available.')
+			gather.play(req.protocol + '://' + req.hostname + '/audio/pleasehold.wav')
+		}
 
 		/* create task attributes */
 		const attributes = {
@@ -95,6 +111,8 @@ module.exports.selectTeam = function (req, res) {
 			type: 'inbound_call',
 			team: team.id
 		}
+
+		logger.info('Call entered queue, awaiting agent to pick up. Phone Number: %s', req.query.From)
 
 		twiml.enqueueTask({
 			workflowSid: req.configuration.twilio.workflowSid,
@@ -121,10 +139,13 @@ module.exports.createTask = function (req, res) {
 
 	taskrouterHelper.createTask(req.configuration.twilio.workflowSid, attributes)
 		.then(task => {
-			twiml.say('Thanks for your callback request, an agent will call you back soon.')
+			logger.info('Caller requested a callback')
+			// twiml.say(voice, 'Thanks for your callback request, an volunteer will call you back soon.')
+			twiml.play(req.protocol + '://' + req.hostname + '/audio/callback-confirm.wav')
 			twiml.hangup()
 		}).catch(error => {
-			twiml.say('An application error occured, the demo ends now')
+			logger.error('Something happened trying to schedule a callback.', error)
+			twiml.say(voice, 'Sorry, we encountered a problem. Please call us again.')
 		}).then(() => {
 			res.send(twiml.toString())
 		})

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Twilio Omni Channel Contact Center - Call Agent Interface</title>
+<title>FADH Call Center - Call Agent Interface</title>
 
   <link rel="stylesheet" href="/styles/default.css" type="text/css" />
   <link rel="stylesheet" href="/styles/bootstrap.css" type="text/css" />
@@ -26,6 +26,7 @@
 
         <div class="logout"><span ng-click="logout()">logout</span></div> 
         <h3 class="name" class="page-header">{{worker.friendlyName}}&#39;s Call Agent Interface</h3>
+        <h4>Friendswood Area Disaster Help</h4>
 
         <div>Status:&nbsp;<span style="font-size:1em" ng-class="{'label-success': worker.activityName == 'Idle', 'label-danger': worker.activityName == 'Busy', 'label-default': worker.activityName == 'Offline', 'label-warning': worker.activityName == 'Reserved'}" class="label">{{worker.activityName}}</span></div>
 
@@ -73,7 +74,7 @@
             <div class="description">{{task.attributes.title}} from 
               <span ng-show="!task.attributes.nameIsPhoneNumber">{{task.attributes.name}}</span>
               
-              <a href="#" ng-click="callPhoneNumber('{{task.attributes.name}}')"" ng-show="task.attributes.nameIsPhoneNumber">{{task.attributes.name}}</a>
+              <a href="#" ng-click="callPhoneNumber('{{task.attributes.name}}')" ng-show="task.attributes.nameIsPhoneNumber">{{task.attributes.name}}</a>
             </div>
             {{task.attributes.text}}
         </div>
@@ -139,6 +140,11 @@
       </div>
       <!-- agent is working on a task -->
 
+	<!-- group chat -->
+	<section id="group-chat">
+		<div id="tlkio" data-channel="agent-chat" data-theme="theme--minimal" data-nickname="{{worker.friendlyName}}" style="width:100%;height:350px;"></div><script async src="https://tlk.io/embed.js" type="text/javascript"></script>
+	</section>
+
     </div>
      
     <section ng-controller="PhoneController" ng-cloak class="phone-controller" >
@@ -177,6 +183,13 @@
    </div>
 
 </section>
+
+  <div>
+    <h5>Links:</h5>
+    <p><a href="#" target="_blank">Volunteer Form</a> | 
+    <a href="#" target="_blank">Work Crew Request Form</a> | 
+    <a href="#" target="_blank">Resources Info Sheet</a></p>
+  </div>
 
 </div>
 

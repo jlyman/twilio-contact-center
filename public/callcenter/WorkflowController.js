@@ -1,4 +1,5 @@
 var app = angular.module('callcenterApplication', ['ngMessages', 'glue.directives']);
+var ringtone = new Audio('/audio/ringtone.mp3');
 
 app.controller('WorkflowController', function ($scope, $rootScope, $http, $interval, $log, $window) {
 
@@ -79,6 +80,8 @@ app.controller('WorkflowController', function ($scope, $rootScope, $http, $inter
 
 			$scope.reservation = reservation;
 			$scope.$apply();
+
+			ringtone.play();
 
 			$scope.startReservationCounter();
 

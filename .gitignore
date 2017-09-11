@@ -13,6 +13,7 @@ npm-debug.log*
 pids
 *.pid
 *.seed
+sessions
 
 # Optional npm cache directory
 .npm

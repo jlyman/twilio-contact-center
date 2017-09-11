@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>Twilio Contact Center</title>
+	<title>FADH Call Center</title>
 
 	<link rel="stylesheet" href="/styles/bootstrap.min.css" type="text/css" />
 	<link rel="stylesheet" href="/styles/default.css" type="text/css" />
@@ -18,7 +18,7 @@
 
 		<div class="row">
 			<div class="page-header col-md-12">
-				<h1>Twilio Contact Center</h1>
+				<h1>FADH Call Center</h1>
 			</div>
 		</div>
 
@@ -27,7 +27,7 @@
 			<div class="col-md-4 col-md-push-8">
 
 				<div ng-if="setup == 'VALID'" class="alert alert-dismissible alert-success">
-					<strong>Well done!</strong><br />You sucessfully setup the demo.
+					<strong>Well done!</strong><br />You sucessfully setup the call center.
 				</div>
 
 				<div ng-if="setup == 'INVALID'" class="alert alert-dismissible alert-danger">
@@ -60,24 +60,26 @@
 			</div>
 
 			<div class="col-md-8 col-md-pull-4">
-
-				<h3>Call Center Administration</h3>
-				<span>A basic administration interface to create and delete new call centre agents.</span><br><br>
-				<div><a href="/administration/index.html" class="btn btn-primary">Open</a></div>
-
+				
 				<h3>Call Agent Login</h3>
 				<span>The working environment for agents. Agents need to open this page and log in.</span>
 				<br><br>
-				<div><a href="/callcenter/index.html" class="btn btn-primary">Open</a></div>
+				<div><a href="/callcenter/index.html" class="btn btn-lg btn-success">Start Here</a></div>
 
-				<h3>Company's Website</h3>
+				<div style="margin-top: 6rem;">
+					<h4>Call Center Administration</h4>
+					<span>For administrators only to modify agents</span><br><br>
+					<div><a href="/administration/index.html" class="btn btn-primary">Open</a></div>
+				</div>
+
+				<!-- <h3>Public Website Pages</h3>
 				<span>Page for customers who want to talk to an agent. Users can request a callback, call the agents via phone, request video support or chat with an agent</span>
 				<br><br>
 				<div>
 					<a href="/contact/index.html" class="btn btn-primary">Inbound &amp; Callback Request</a>
 					<a href="/contact/chat.html" class="btn btn-primary">Web Chat</a>
 					<a href="/contact/video.html" class="btn btn-primary">Video Call</a>
-				</div>
+				</div> -->
 
 			</div>
 

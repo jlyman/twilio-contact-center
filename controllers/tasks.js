@@ -26,7 +26,7 @@ module.exports.createChat = function (req, res) {
 		process.env.TWILIO_ACCOUNT_SID,
 		process.env.TWILIO_API_KEY_SID,
 		process.env.TWILIO_API_KEY_SECRET,
-		{ ttl: 3600 })
+		{ ttl: 14400 })
 
 	/* grant the access token Twilio Programmable Chat capabilities */
 	const chatGrant = new ChatGrant({
@@ -75,7 +75,7 @@ module.exports.createVideo = function (req, res) {
 		process.env.TWILIO_ACCOUNT_SID,
 		process.env.TWILIO_API_KEY_SID,
 		process.env.TWILIO_API_KEY_SECRET,
-		{ ttl: 3600 }
+		{ ttl: 14400 }
 	)
 
 	/* grant the access token Twilio Programmable Video capabilities */
