@@ -7,7 +7,7 @@ logs
 npm-debug.log*
 
 # API Keys
-.env
+.env*
 
 # Runtime data
 pids

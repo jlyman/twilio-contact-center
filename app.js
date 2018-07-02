@@ -186,6 +186,33 @@ app.use('/administration', authUtil.authenticationMiddleware(true))
 app.use('/callcenter', authUtil.authenticationMiddleware())
 app.use('/', express.static(__dirname + '/public'))
 
-app.listen(app.get('port'), function () {
+var server = app.listen(app.get('port'), function () {
 	console.log('magic happens on port', app.get('port'))
 })
+
+
+// quit on ctrl-c when running docker in terminal
+process.on('SIGINT', function onSigint () {
+	console.info('Got SIGINT (aka ctrl-c in docker). Graceful shutdown ', new Date().toISOString());
+  shutdown();
+});
+
+// quit properly on docker stop
+process.on('SIGTERM', function onSigterm () {
+  console.info('Got SIGTERM (docker container stop). Graceful shutdown ', new Date().toISOString());
+  shutdown();
+})
+
+// shut down server
+function shutdown() {
+  server.close(function onServerClosed (err) {
+    if (err) {
+      console.error(err);
+      process.exitCode = 1;
+		}
+		process.exit();
+  })
+}
+//
+// need above in docker container to properly exit
+//
