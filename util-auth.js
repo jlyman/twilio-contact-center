@@ -5,7 +5,7 @@ var LocalStrategy = require('passport-local').Strategy
 var users = [
 	{
 		id: 1,
-		username: '[main-admin-name-here]',
+		username: process.env.CALL_CENTER_ADMIN_USERNAME,
 		passwordHash: process.env.CALL_CENTER_ADMIN_PASSWORD,
 		isAdmin: true,
 	},
