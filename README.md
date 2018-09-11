@@ -37,6 +37,18 @@ it in to `workplace.html` in the `data-channel` attribute to be specific to your
 Also to the bottom of the Agent Workplace screen we added several forms and resource links that were useful in our
 situation. You may have links that would likewise be useful to your agents/volunteers, so modify those (workplace.html).
 
+## Persisting Setup ##
+
+Once you have everything set up, don't forget to save the configuration that gets written out by visiting `/setup`. If using Postgres it will be persisted to the DB. If using flatfile (by default), changes will get written to `configuration.json`. You'll want to grab the written out copy of that file and persist it into your private repo. If using Docker, you will likely want to build and tag your own copy of the image with the updated configuration.json. The Contact Center doesn't play very nice if you try to run setup again with an account that already has everything set up, and it's much easier to just make sure you save the config details.
+
+## Docker Notes ##
+
+This can be run as a Docker image. It defaults to listening on port 5000.
+
+When developing, the including `docker-compose.yml` file can be set up to automatically allow for active development via hot reloading of files, separating out local (host) node_modules from the image's node_modules, etc. By configuration, using Docker Compose defaults to development mode and will look for a `.env.development` file which you can make by copying the `env.example` file.
+
+For production use, follow the guidelines below to determine what environment variables need to be appropriately passed in. Assign them to your prod environment and pass them in via the `docker run` command, or make a copy of the `env.example` file and pass that in as `docker run --env-file=env.production [other commands]`.
+
 ---
 
 # Twilio Contact Center Demo
@@ -143,7 +155,7 @@ Start the application
 
 Before you can use the demo please open `http://<your_application_name>/setup` and configure the application. The demo overview will be accessible at `http://<your_application_name>`. Please note, if process.env.PORT is not set the applications runs on port 5000.
 
-If you are running the demo locally please remember that Twilio needs a publically-accessible address for webhooks, and the setup process registers these with Twilio. As such, you'll need to run something like ngrok instead of just hitting http://localhost:5000/. As you get new addresses from ngrok you'll need to also rerun the setup process to register the updated address with Twilio.
+If you are running the demo locally please remember that Twilio needs a publically-accessible address for webhooks, and the setup process registers these with Twilio. As such, you'll need to run something like ngrok instead of just hitting http://localhost:5000/. As you get new addresses from ngrok you'll need to also rerun the setup process to register the updated address with Twilio. Otherwise you get errors running setup such as "Invalid URL"
 
 **Note:** On Google Chrome a secure HTTPS connection is required to do phone calls via WebRTC. Use a tunnel that supports HTTPS such as ngrok, which can forward the traffic to your webserver.
 
