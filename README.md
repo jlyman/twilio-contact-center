@@ -43,7 +43,7 @@ Once you have everything set up, don't forget to save the configuration that get
 
 ## Docker Notes ##
 
-This can be run as a Docker image. `docker pull jlyman/fadh-call-center`
+This can be run as a Docker image. `docker pull jlyman/fadh-contact-center`
 
 When developing, the including `docker-compose.yml` file can be set up to automatically allow for active development via hot reloading of files, separating out local (host) node_modules from the image's node_modules, etc. By configuration, using Docker Compose defaults to development mode and will look for a `.env.development` file which you can make by copying the `env.example` file.
 
